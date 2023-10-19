@@ -8,19 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<!-- Favicon -->
-	<link href="img/favicon.ico" rel="shortcut icon"/>
+	<link href="{{asset('img/favicon.ico')}}" rel="shortcut icon"/>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
  
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
-	<link rel="stylesheet" href="css/slicknav.min.css"/>
+	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/slicknav.min.css')}}"/>
 
 	<!-- Main Stylesheets -->
-	<link rel="stylesheet" href="css/style.css"/>
+	<link rel="stylesheet" href="{{asset('css/style.css')}}"/>
 
 
 	<!--[if lt IE 9]>
@@ -38,7 +38,7 @@
 	<!-- Header section -->
 	<header class="header-section clearfix">
 		<a href="index.html" class="site-logo">
-			<img src="img/logo.png" alt="">
+			<img src="{{asset('img/logo.png')}}" alt="">
 		</a>
 		<div class="header-right">
 			<a href="#" class="hr-btn">Help</a>
@@ -49,7 +49,7 @@
 			</div> 
 		</div>
 		<ul class="main-menu">
-			<li><a href="index.html">Home</a></li>
+			<li><a href="{{path('app_home')}}">Home</a></li>
 			<li><a href="#">About</a></li>
 			<li><a href="#">Pages</a>
 				<ul class="sub-menu">
@@ -65,52 +65,9 @@
 		</ul>
 	</header>
 	<!-- Header section end -->
-
-	<!-- Hero section -->
-	<section class="hero-section">
-		<div class="hero-slider owl-carousel">
-			<div class="hs-item">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="hs-text">
-								<h2><span>Music</span> for everyone.</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. </p>
-								<a href="#" class="site-btn">Download Now</a>
-								<a href="#" class="site-btn sb-c2">Start free trial</a>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="hr-img">
-								<img src="img/hero-bg.png" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="hs-item">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="hs-text">
-								<h2><span>Listen </span> to new music.</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. </p>
-								<a href="#" class="site-btn">Download Now</a>
-								<a href="#" class="site-btn sb-c2">Start free trial</a>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="hr-img">
-								<img src="img/hero-bg.png" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Hero section end -->
-
+    {% block body %}
+        
+    {% endblock %}
 	<!-- Intro section -->
 	<section class="intro-section spad">
 		<div class="container">
@@ -170,7 +127,7 @@
 					</div>
 				</div>
 				<div class="col-xl-6 col-lg-5 order-lg-1">
-					<img src="img/logo.png" alt="">
+					<img src="{{asset('img/logo.png')}}" alt="">
 					<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> Downloaded from <a href="https://themeslab.org/" target="_blank">Themeslab</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
@@ -188,12 +145,12 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<!-- Footer section end -->
 	
 	<!--====== Javascripts & Jquery ======-->
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.slicknav.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/mixitup.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.slicknav.min.js')}}"></script>
+	<script src="{{asset('js/owl.carousel.min.js')}}"></script>
+	<script src="{{asset('js/mixitup.min.js')}}"></script>
+	<script src="{{asset('js/main.js')}}"></script>
 
 	</body>
 </html>
