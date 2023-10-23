@@ -3,34 +3,54 @@
 namespace App\Controller;
 
 use App\Entity\Gericht;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Form\GerichtType;
+use App\Repository\GerichtRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/gericht', name: 'app_gericht')]
+#[Route('/gericht', name: 'gericht')]
 class GerichtController extends AbstractController
 {
     #[Route('/', name: 'bearbeiten')]
-    public function index(): Response
+    public function index(GerichtRepository $gerichtRepository): Response
     {
+        $gerichte = $gerichtRepository->findAll();
         return $this->render('gericht/index.html.twig', [
-            'controller_name' => 'GerichtController',
+            'gerichte' => $gerichte,
         ]);
     }
 
     #[Route('/anlegen', name: 'anlegen')]
-    public function anlegen(Request $request, ManagerRegistry $manager): Response
+    public function anlegen(Request $request, EntityManagerInterface $manager): Response
     {
         $gericht = new Gericht();
-        $gericht->setName("Pizza");
+        $form = $this->createForm(GerichtType::class, $gericht);
+        $form->handleRequest($request);
 
-        $entityManager = $manager->getManager();
-        $entityManager->persist($gericht);
-        $entityManager->flush();
+        if($form->isSubmitted()){
+            $manager->persist($gericht);
+            $manager->flush();
 
+            return $this->redirect($this->generateUrl('gerichtbearbeiten'));
+        }
 
+        return $this->render('gericht/anlegen.html.twig', [
+            'anlegenForm' => $form->createView(),
+        ]);
+    }
 
+    #[Route('/entfernen{id}', name: 'entfernen')]
+    public function entfernen($id, GerichtRepository $gerichtRepository, EntityManagerInterface $manager): Response
+    {
+        $gericht = $gerichtRepository->find($id);
+        $manager->remove($gericht);
+        $manager->flush();
+
+        $this->addFlash("erfolg", "Gericht wurde erfolgreich entfernt");
+
+        return $this->redirect($this->generateUrl('gerichtbearbeiten'));
     }
 }

@@ -1,20 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GerichtController!{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/aless/OneDrive/Dokumente/Informatik/Udemy/Symfony/Quellcode_zum_Kurs/webprojekt/src/Controller/GerichtController.php'|file_link(0) }}">src/Controller/GerichtController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/aless/OneDrive/Dokumente/Informatik/Udemy/Symfony/Quellcode_zum_Kurs/webprojekt/templates/gericht/index.html.twig'|file_link(0) }}">templates/gericht/index.html.twig</a></code></li>
-    </ul>
+<br>
+<div class="container">
+    {% for message in app.flashes("erfolg") %}
+        <div class="alert alert-success" role="alert">
+            <h2>{{message}}</h2>
+        </div>
+    {% endfor %}
+    <h2>Gerichte Bearbeiten</h2>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Bestellnummer</td>
+                <td>Name</td>
+                <td>Beschreibung</td>
+                <td>Preis</td>
+                <td>Löschen</td>
+                <td><a href="{{path('gerichtanlegen')}}">Anlegen</a></td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for gericht in gerichte %}
+            <tr>
+                <td>{{gericht.id}}</td>
+                <td>{{gericht.name}}</td>
+                <td>{{gericht.beschreibung}}</td>
+                <td>{{gericht.preis}}€</td>
+                <td><a href="{{path('gerichtentfernen', {id: gericht.id})}}">X</a></td>
+                <td></td>
+            <tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
+
 {% endblock %}
