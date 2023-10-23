@@ -3,13 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Gericht;
+use App\Entity\Kategorie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-
 
 class GerichtType extends AbstractType
 {
@@ -19,6 +19,9 @@ class GerichtType extends AbstractType
             ->add('name')
             ->add('beschreibung')
             ->add('preis')
+            ->add('kategorie', EntityType::class, [
+                "class" => Kategorie::class
+                ])
             ->add('bild', FileType::class, ['required' => false])
             ->add('speichern', SubmitType::class)
         ;
