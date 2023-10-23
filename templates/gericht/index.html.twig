@@ -29,7 +29,7 @@
         {% for gericht in gerichte %}
             <tr>
                 <td>{{gericht.id}}</td>
-                <td>{{gericht.name}}</td>
+                <td><a href="{{path('gerichtanzeigen', {id: gericht.id})}}">{{gericht.name}}</a></td>
                 <td>{{gericht.beschreibung}}</td>
                 <td>{{gericht.preis}}€</td>
                 <td><a href="{{path('gerichtentfernen', {id: gericht.id})}}">X</a></td>

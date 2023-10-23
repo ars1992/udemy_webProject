@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 #[Route('/gericht', name: 'gericht')]
 class GerichtController extends AbstractController
 {
@@ -24,13 +29,31 @@ class GerichtController extends AbstractController
     }
 
     #[Route('/anlegen', name: 'anlegen')]
-    public function anlegen(Request $request, EntityManagerInterface $manager): Response
+    public function anlegen(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger): Response
     {
         $gericht = new Gericht();
         $form = $this->createForm(GerichtType::class, $gericht);
         $form->handleRequest($request);
 
-        if($form->isSubmitted()){
+        if ($form->isSubmitted()) {
+            /** @var UploadedFile $bild */
+            $bild = $form->get('bild')->getData();
+            if ($bild) {
+                $originalFilename = pathinfo($bild->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$bild->guessExtension();
+
+                try {
+                    $bild->move(
+                        $this->getParameter('bilder_ordner'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    return new Response($e);
+                }
+                $gericht->setBild($newFilename);
+            }
+
             $manager->persist($gericht);
             $manager->flush();
 
@@ -42,7 +65,15 @@ class GerichtController extends AbstractController
         ]);
     }
 
-    #[Route('/entfernen{id}', name: 'entfernen')]
+    #[Route('/anzeigen/{id}', name: 'anzeigen')]
+    public function anzeigen(Gericht $gericht): Response
+    {
+        return $this->render('gericht/anzeigen.html.twig', [
+            'gericht' => $gericht,
+        ]);
+    }
+
+    #[Route('/entfernen/{id}', name: 'entfernen')]
     public function entfernen($id, GerichtRepository $gerichtRepository, EntityManagerInterface $manager): Response
     {
         $gericht = $gerichtRepository->find($id);

@@ -25,6 +25,10 @@ class Gericht
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bild = null;
 
+    #[ORM\ManyToOne(inversedBy: 'gerichts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Kategorie $kategorie = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +78,18 @@ class Gericht
     public function setBild(?string $bild): static
     {
         $this->bild = $bild;
+
+        return $this;
+    }
+
+    public function getKategorie(): ?Kategorie
+    {
+        return $this->kategorie;
+    }
+
+    public function setKategorie(?Kategorie $kategorie): static
+    {
+        $this->kategorie = $kategorie;
 
         return $this;
     }
