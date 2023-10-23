@@ -19,10 +19,10 @@ class GerichtType extends AbstractType
             ->add('name')
             ->add('beschreibung')
             ->add('preis')
+            ->add('bild', FileType::class, ['required' => false])
             ->add('kategorie', EntityType::class, [
                 "class" => Kategorie::class
                 ])
-            ->add('bild', FileType::class, ['required' => false])
             ->add('speichern', SubmitType::class)
         ;
     }
