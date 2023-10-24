@@ -1,20 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BestellungController!{% endblock %}
+{% set summe = 0 %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h2>Ihre Bestellung</h2>
+	<br>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>Bestellnummer</td>
+				{% if not is_granted("IS_AUTHENTICATED_FULLY") %}
+					<td>Tisch</td>
+				{% endif %}
+				<td>Name</td>
+				<td>Preis</td>
+				<td>Status</td>
+				{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+					<td>Status ändern</td>
+				{% endif %}
+				<td>Löschen</td>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+			</tr>
+		</thead>
+		<tbody>
+			{% for bestellung in bestellungen %}
+				{% if bestellung.status != "archiv" %}
+					{% set summe = summe + bestellung.preis %}
+					<tr>
+						<td>{{bestellung.bestellnummer}}</td>
+						{% if not is_granted("IS_AUTHENTICATED_FULLY") %}
+							<td>{{bestellung.tisch}}</td>
+						{% endif %}
+						<td>{{bestellung.name}}</td>
+						<td>{{bestellung.preis}}</td>
+						<td>{{bestellung.status}}</td>
+						{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										{{bestellung.status}}
+									</button>
+									<ul class="dropdown-menu">
+										<li>
+											<a class="dropdown-item" href="{{path('status', {id: bestellung.id, status: 'offen'})}}">Offen</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('status', {id: bestellung.id, status: 'fertig'})}}">Fertig</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('status', {id: bestellung.id, status: 'archiv'})}}">Archiv</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						{% endif %}
+						{% if bestellung.status == "offen" %}
+							<td>
+								<a href="{{path('löschen', {id: bestellung.id})}}">X</a>
+							</td>
+						{% endif %}
+					</tr>
+					<tr>
+					{% endif %}
+				{% endfor %}
+				<tr>
+					<td>Summe.:
+						{{summe}}€</td>
+				</tr>
+			</tbody>
+		</tbody>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/aless/OneDrive/Dokumente/Informatik/Udemy/Symfony/Quellcode_zum_Kurs/webprojekt/src/Controller/BestellungController.php'|file_link(0) }}">src/Controller/BestellungController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/aless/OneDrive/Dokumente/Informatik/Udemy/Symfony/Quellcode_zum_Kurs/webprojekt/templates/bestellung/index.html.twig'|file_link(0) }}">templates/bestellung/index.html.twig</a></code></li>
-    </ul>
-</div>
+	</table>
 {% endblock %}

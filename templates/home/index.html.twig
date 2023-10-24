@@ -5,27 +5,30 @@
 	<!-- Hero section -->
 	<section class="hero-section">
 		<div class="hero-slider owl-carousel">
-		{% for gericht in gerichte %}
-			<div class="hs-item">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="hs-text">
-								<h2><span>{{gericht.name}}</span>!</h2>
-								<p>Bestellen Sie jetz! {{gericht.beschreibung}}</p>
-								<a href="{{path('menu')}}" class="site-btn">Menu</a>
-								<a href="{{path('gerichtanzeigen', {id: gericht.id})}}" class="site-btn sb-c2">Zum Gericht</a>
+			{% for gericht in gerichte %}
+				<div class="hs-item">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="hs-text">
+									<h2>
+										<span>{{gericht.name}}</span>!</h2>
+									<p>Bestellen Sie jetz!
+										{{gericht.beschreibung}}</p>
+									<a href="{{path('menu')}}" class="site-btn">Menu</a>
+									<a href="{{path('gerichtanzeigen', {id: gericht.id})}}" class="site-btn sb-c2">Zum Gericht</a>
+									<a class="site-btn sb-c2" href="{{path('bestellen', {id: gericht.id})}}" role="button">Bestellen</a>
+								</div>
 							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="hr-img">
-								<img src="{{asset('bilder/' ~ gericht.bild)}}">
+							<div class="col-lg-6">
+								<div class="hr-img">
+									<img src="{{asset('bilder/' ~ gericht.bild)}}">
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
 		</div>
 	</section>
 	<!-- Hero section end -->
