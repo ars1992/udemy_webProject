@@ -1,0 +1,18 @@
+
+{% apply inline_css %}
+
+<style>
+h2{
+    color: #A435F0;
+}
+
+</style>
+    
+
+{% block body %}
+    <h2>Hallo Kellner</h2>
+    <h3>Der Tisch {{tisch}} hat folgende Nachricht geschickt:</h3>
+    <p>{{text}}</p>
+
+{% endblock %}
+{% endapply %}

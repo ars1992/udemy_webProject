@@ -71,10 +71,10 @@
 					<li>
 						<a href="{{path('bestellung')}}">Bestellungen</a>
 					</li>
-				{% endif %}
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{{path('bestellung')}}">Mail</a>
 				</li>
+				{% endif %}
 				{% if is_granted("IS_AUTHENTICATED_FULLY") %}
 					<li>
 						<a href="#">Mitarbeiter</a>
