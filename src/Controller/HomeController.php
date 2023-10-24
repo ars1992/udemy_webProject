@@ -13,14 +13,14 @@ class HomeController extends AbstractController
     public function index(GerichtRepository $gerichtRepository): Response
     {
         $gerichte = $gerichtRepository->findAll();
-        if(count($gerichte)){
+        if(count($gerichte) > 1){
             $zufallsGerichte = array_rand($gerichte, count($gerichte));
             return $this->render('home/index.html.twig', [
                 'gerichte' => array($gerichte[$zufallsGerichte[0]], $gerichte[$zufallsGerichte[1]])
             ]);
         }
         return $this->render('home/index.html.twig', [
-
+            "gerichte" => array()
         ]);
     }
 

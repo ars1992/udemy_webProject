@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Kategorie;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,9 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class MailController extends AbstractController
 {
     #[Route('/mail', name: 'mail')]
-    public function sendMail(MailerInterface $mailerInterface, Request $request): Response
+    public function sendMail(MailerInterface $mailerInterface, Request $request, EntityManagerInterface $manager): Response
     {
-
         $emailForm = $this->createFormBuilder()
             ->add("nachricht", TextareaType::class, [
                 "attr" => array("rows" => 5)
