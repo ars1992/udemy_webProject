@@ -14,12 +14,16 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrierungsController extends AbstractController
 {
     #[Route('/reg', name: 'reg')]
-    public function reg(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function reg(
+        Request $request, 
+        EntityManagerInterface $manager, 
+        UserPasswordHasherInterface $userPasswordHasher,
+        ValidatorInterface $validator): Response
     {
         $regform = $this->createFormBuilder()
             ->add('username', TextType::class, [
@@ -37,11 +41,20 @@ class RegistrierungsController extends AbstractController
 
         $regform->handleRequest($request);
         
-        if ($regform->isSubmitted() && $regform->isValid()) { 
+        if ($regform->isSubmitted()) { 
             $eingabe = $regform->getData();
             $user = new User();
             $user->setUsername($eingabe["username"]);
             $user->setPassword($userPasswordHasher->hashPassword($user, $eingabe["password"]));
+            $user->setRawPassword($eingabe["password"]);
+
+            $errors = $validator->validate($user);
+            if(count($errors) > 0){
+                return $this->render('registrierungs/index.html.twig', [
+                    'regform' => $regform->createView(),
+                    "errors" => $errors
+                ]);
+            }
 
             $manager->persist($user);
             $manager->flush();
@@ -51,6 +64,7 @@ class RegistrierungsController extends AbstractController
 
         return $this->render('registrierungs/index.html.twig', [
             'regform' => $regform->createView(),
+            "errors" => null
         ]);
     }
 }

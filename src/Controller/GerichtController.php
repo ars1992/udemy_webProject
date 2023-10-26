@@ -84,4 +84,11 @@ class GerichtController extends AbstractController
 
         return $this->redirect($this->generateUrl('gerichtbearbeiten'));
     }
+
+    #[Route('/preis/{id}', name: 'preis')]
+    public function preis($id, GerichtRepository $gerichtRepository): Response
+    {
+        $gerichte = $gerichtRepository->find5Euro($id);
+        dd($gerichte);
+    }
 }

@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 
-
 {% block body %}
-    {{form(regform)}}
+	{% for error in errors %}
+		<div class="alert alert-success">
+			<h3>{{error.message}}</h3>
+		</div>
+	{% endfor %}
+	{{form(regform)}}
 {% endblock %}
